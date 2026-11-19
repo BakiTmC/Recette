@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Les ingrédients')}"></head>
+<body><header th:replace="~{fragments/layout :: menu}"></header>
+<main class="container"><div th:replace="~{fragments/layout :: flash}"></div>
+<div class="titre"><div><p class="surtitre">LES PRODUITS</p><h1>Mes ingrédients</h1></div><a class="bouton" th:href="@{/ingredients/nouveau}">Ajouter un ingrédient</a></div>
+<p th:if="${#lists.isEmpty(ingredients)}">Aucun ingrédient. Ajoutez les produits à utiliser dans vos recettes.</p>
+<div class="tableau" th:unless="${#lists.isEmpty(ingredients)}"><table><thead><tr><th>Nom</th><th>Unité</th></tr></thead><tbody><tr th:each="i : ${ingredients}"><td th:text="${i.nom}"></td><td th:text="${#strings.isEmpty(i.unite) ? '—' : i.unite}"></td></tr></tbody></table></div>
+</main><footer th:replace="~{fragments/layout :: footer}"></footer></body></html>

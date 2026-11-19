@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ajouter un ingrédient')}"></head>
+<body><header th:replace="~{fragments/layout :: menu}"></header>
+<main class="container"><div th:replace="~{fragments/layout :: flash}"></div>
+<p class="surtitre">LES PRODUITS</p><h1>Nouvel ingrédient</h1>
+<form class="fiche" th:action="@{/ingredients}" th:object="${ingredient}" method="post" novalidate>
+<label for="nom">Nom *</label><input id="nom" type="text" th:field="*{nom}" maxlength="255" required th:errorclass="champ-erreur">
+<p class="erreur" th:errors="*{nom}"></p>
+<label for="unite">Unité</label><input id="unite" type="text" th:field="*{unite}" maxlength="255" placeholder="g, ml, pièce…" th:errorclass="champ-erreur"><p class="erreur" th:errors="*{unite}"></p>
+<div class="actions"><button type="submit">Enregistrer</button><a th:href="@{/ingredients}">Annuler</a></div></form>
+</main><footer th:replace="~{fragments/layout :: footer}"></footer></body></html>

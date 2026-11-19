@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mes recettes')}"></head>
+<body><header th:replace="~{fragments/layout :: menu}"></header>
+<main class="container"><div th:replace="~{fragments/layout :: flash}"></div>
+<div class="titre"><div><p class="surtitre">À CUISINER</p><h1>Mes recettes</h1></div><a class="bouton" th:href="@{/recettes/nouvelle}">Ajouter une recette</a></div>
+<form class="recherche" method="get" th:action="@{/recettes}"><label for="q">Rechercher un titre</label><input type="search" id="q" name="q" th:value="${q}" placeholder="Ex. : crêpes"><button>Rechercher</button><a th:href="@{/recettes}">Tout afficher</a></form>
+<p class="vide" th:if="${#lists.isEmpty(recettes)}">Aucune recette à afficher.</p>
+<div class="tableau" th:unless="${#lists.isEmpty(recettes)}"><table><thead><tr><th>Titre</th><th>Temps</th><th>Difficulté</th><th>Personnes</th><th>Ingrédients</th><th>Actions</th></tr></thead>
+<tbody><tr th:each="r : ${recettes}"><td class="nom" th:text="${r.titre}"></td><td th:text="${r.tempsPreparation + ' min'}"></td><td th:text="${r.difficulte == 1 ? 'Facile' : (r.difficulte == 2 ? 'Moyenne' : 'Difficile')}"></td><td th:text="${r.nombrePersonnes}"></td><td th:text="${#lists.size(r.ingredients)}"></td>
+<td><div class="actions"><a th:href="@{/recettes/{id}/editer(id=${r.id})}">Modifier</a><form th:action="@{/recettes/{id}/supprimer(id=${r.id})}" method="post" onsubmit="return confirm('Supprimer cette recette ?');"><button class="danger">Supprimer</button></form></div></td></tr></tbody></table></div>
+</main><footer th:replace="~{fragments/layout :: footer}"></footer></body></html>

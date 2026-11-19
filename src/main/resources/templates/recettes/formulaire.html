@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulaire de recette')}"></head>
+<body><header th:replace="~{fragments/layout :: menu}"></header>
+<main class="container"><div th:replace="~{fragments/layout :: flash}"></div>
+<p class="surtitre">À CUISINER</p><h1 th:text="${recette.id == null ? 'Nouvelle recette' : 'Modifier la recette'}">Recette</h1>
+<form class="fiche" th:action="@{/recettes}" th:object="${recette}" method="post" novalidate>
+<input type="hidden" th:field="*{id}"><p class="erreur" th:errors="*{id}"></p>
+<label for="titre">Titre *</label><input id="titre" type="text" th:field="*{titre}" required maxlength="120" th:errorclass="champ-erreur"><p class="erreur" th:errors="*{titre}"></p>
+<label for="description">Description et étapes</label><textarea id="description" th:field="*{description}" rows="4"></textarea>
+<div class="grille">
+<div><label for="tempsPreparation">Temps de préparation (min) *</label><input id="tempsPreparation" type="number" min="1" th:field="*{tempsPreparation}" required th:errorclass="champ-erreur"><p class="erreur" th:errors="*{tempsPreparation}"></p></div>
+<div><label for="nombrePersonnes">Nombre de personnes *</label><input id="nombrePersonnes" type="number" min="1" th:field="*{nombrePersonnes}" required th:errorclass="champ-erreur"><p class="erreur" th:errors="*{nombrePersonnes}"></p></div>
+<div><label for="difficulte">Difficulté *</label><select id="difficulte" th:field="*{difficulte}" th:errorclass="champ-erreur"><option value="1">1 - Facile</option><option value="2">2 - Moyenne</option><option value="3">3 - Difficile</option></select><p class="erreur" th:errors="*{difficulte}"></p></div></div>
+<fieldset><legend>Ingrédients</legend><p class="aide">Cochez les ingrédients nécessaires à cette recette.</p>
+<p th:if="${#lists.isEmpty(tousLesIngredients)}">Aucun ingrédient disponible. <a th:href="@{/ingredients/nouveau}">Ajouter un ingrédient</a></p>
+<div class="choix"><label class="case" th:each="i : ${tousLesIngredients}"><input type="checkbox" name="ingredientIds" th:value="${i.id}" th:checked="${idsCoches.contains(i.id)}"><span th:text="${i.nom}"></span><small th:if="${!#strings.isEmpty(i.unite)}" th:text="${'(' + i.unite + ')'}"></small></label></div><p class="erreur" th:errors="*{ingredients}"></p></fieldset>
+<div class="actions"><button type="submit">Enregistrer</button><a th:href="@{/recettes}">Annuler</a></div></form>
+</main><footer th:replace="~{fragments/layout :: footer}"></footer></body></html>
